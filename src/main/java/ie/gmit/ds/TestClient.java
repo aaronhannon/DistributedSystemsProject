@@ -1,6 +1,7 @@
 package ie.gmit.ds;
 
 import com.google.protobuf.BoolValue;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.Empty;
 
 import io.grpc.ManagedChannel;
@@ -37,17 +38,30 @@ public class TestClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
+    public void validateMethod(ByteString expectedHash,ByteString salt){
+
+        String testPasword = "password";
+        System.out.println("VALIDATE");
+        ValidateRequest validateRequest = ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPasword).build();
+
+        BoolValue isValid = syncUserService.validate(validateRequest);
+        System.out.println(isValid.getValue());
+    }
+
     public void hashMethod(int userId, String password) {
 
 
         try {
-            logger.info("Requesting all items ");
+            //logger.info("Requesting all items ");
             HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
             HashResponse response = syncUserService.hash(hashRequest);
             System.out.println(response.getHashedPassword().toByteArray());
-            logger.info("Returned from requesting all items ");
+
+            validateMethod(response.getHashedPassword(),response.getSalt());
+
+            //logger.info("Returned from requesting all items ");
         } catch (StatusRuntimeException ex) {
-            logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
+            //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
             return;
         }
 

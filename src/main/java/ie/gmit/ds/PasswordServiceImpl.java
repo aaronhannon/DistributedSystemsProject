@@ -8,6 +8,20 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
 
     @Override
     public void validate(ValidateRequest request, StreamObserver<BoolValue> responseObserver) {
+        char[] password = request.getPassword().toCharArray();
+        byte[] salt = request.getSalt().toByteArray();
+        byte[] expectedPassword = request.getHashedPassword().toByteArray();
+
+        boolean validPassword = Passwords.isExpectedPassword(password,salt,expectedPassword);
+
+        if(validPassword == true){
+            responseObserver.onNext(BoolValue.newBuilder().setValue(true).build());
+            responseObserver.onCompleted();
+        }else{
+            responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
+            responseObserver.onCompleted();
+        }
+
 
     }
 
