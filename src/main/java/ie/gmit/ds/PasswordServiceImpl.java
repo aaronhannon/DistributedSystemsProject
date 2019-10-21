@@ -13,5 +13,7 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
     @Override
     public void hash(HashRequest request, StreamObserver<HashResponse> responseObserver) {
 
+        
+
     }
 }

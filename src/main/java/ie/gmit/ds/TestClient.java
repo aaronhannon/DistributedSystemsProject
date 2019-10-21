@@ -80,7 +80,26 @@ public class TestClient {
     }
 
     public void hash(HashRequest hashRequest) {
+        StreamObserver<HashResponse> responseObserver = new StreamObserver<HashResponse>() {
+            @Override
+            public void onNext(HashResponse value) {
+                System.out.println(value.getUserId());
+                System.out.println(value.getHashedPassword().toByteArray());
+                System.out.println(value.getSalt().toByteArray());
+            }
 
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        };
+
+        asyncUserService.hash(hashRequest,responseObserver);
     }
 
 
@@ -88,16 +107,20 @@ public class TestClient {
         TestClient client = new TestClient("localhost", 50551);
         Scanner console = new Scanner(System.in);  // Create a Scanner object
         boolean exit = false;
-        String userID;
+        int userID;
         String password;
 
-        System.out.println("");
+        System.out.println("Enter UserID: ");
+        userID = console.nextInt();
+        System.out.println("Enter Password:");
+        password = console.next();
 
-
-
-        }
-
-
+        HashRequest hashRequest = HashRequest.newBuilder().setUserId(userID).setPassword(password).build();
+        client.hash(hashRequest);
 
     }
+
+
+
 }
+
