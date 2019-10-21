@@ -89,6 +89,37 @@ public final class PasswordServiceGrpc {
     return getValidateMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.google.protobuf.Empty,
+      ie.gmit.ds.Users> getGetUsersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getUsers",
+      requestType = com.google.protobuf.Empty.class,
+      responseType = ie.gmit.ds.Users.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.google.protobuf.Empty,
+      ie.gmit.ds.Users> getGetUsersMethod() {
+    io.grpc.MethodDescriptor<com.google.protobuf.Empty, ie.gmit.ds.Users> getGetUsersMethod;
+    if ((getGetUsersMethod = PasswordServiceGrpc.getGetUsersMethod) == null) {
+      synchronized (PasswordServiceGrpc.class) {
+        if ((getGetUsersMethod = PasswordServiceGrpc.getGetUsersMethod) == null) {
+          PasswordServiceGrpc.getGetUsersMethod = getGetUsersMethod =
+              io.grpc.MethodDescriptor.<com.google.protobuf.Empty, ie.gmit.ds.Users>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getUsers"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.google.protobuf.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  ie.gmit.ds.Users.getDefaultInstance()))
+              .setSchemaDescriptor(new PasswordServiceMethodDescriptorSupplier("getUsers"))
+              .build();
+        }
+      }
+    }
+    return getGetUsersMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -130,6 +161,13 @@ public final class PasswordServiceGrpc {
       asyncUnimplementedUnaryCall(getValidateMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getUsers(com.google.protobuf.Empty request,
+        io.grpc.stub.StreamObserver<ie.gmit.ds.Users> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetUsersMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -146,6 +184,13 @@ public final class PasswordServiceGrpc {
                 ie.gmit.ds.ValidateRequest,
                 com.google.protobuf.BoolValue>(
                   this, METHODID_VALIDATE)))
+          .addMethod(
+            getGetUsersMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.google.protobuf.Empty,
+                ie.gmit.ds.Users>(
+                  this, METHODID_GET_USERS)))
           .build();
     }
   }
@@ -183,6 +228,14 @@ public final class PasswordServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getValidateMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getUsers(com.google.protobuf.Empty request,
+        io.grpc.stub.StreamObserver<ie.gmit.ds.Users> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetUsersMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -215,6 +268,13 @@ public final class PasswordServiceGrpc {
     public com.google.protobuf.BoolValue validate(ie.gmit.ds.ValidateRequest request) {
       return blockingUnaryCall(
           getChannel(), getValidateMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public ie.gmit.ds.Users getUsers(com.google.protobuf.Empty request) {
+      return blockingUnaryCall(
+          getChannel(), getGetUsersMethod(), getCallOptions(), request);
     }
   }
 
@@ -251,10 +311,19 @@ public final class PasswordServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getValidateMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<ie.gmit.ds.Users> getUsers(
+        com.google.protobuf.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetUsersMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_HASH = 0;
   private static final int METHODID_VALIDATE = 1;
+  private static final int METHODID_GET_USERS = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -280,6 +349,10 @@ public final class PasswordServiceGrpc {
         case METHODID_VALIDATE:
           serviceImpl.validate((ie.gmit.ds.ValidateRequest) request,
               (io.grpc.stub.StreamObserver<com.google.protobuf.BoolValue>) responseObserver);
+          break;
+        case METHODID_GET_USERS:
+          serviceImpl.getUsers((com.google.protobuf.Empty) request,
+              (io.grpc.stub.StreamObserver<ie.gmit.ds.Users>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -344,6 +417,7 @@ public final class PasswordServiceGrpc {
               .setSchemaDescriptor(new PasswordServiceFileDescriptorSupplier())
               .addMethod(getHashMethod())
               .addMethod(getValidateMethod())
+              .addMethod(getGetUsersMethod())
               .build();
         }
       }

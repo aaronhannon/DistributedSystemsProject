@@ -40,12 +40,34 @@ public class TestClient {
 
     public void validateMethod(ByteString expectedHash,ByteString salt){
 
+
+//        StreamObserver<BoolValue> response = new StreamObserver<BoolValue>() {
+//            @Override
+//            public void onNext(BoolValue value) {
+//                System.out.println("ONNEXT VALUE: " + value.getValue());
+//            }
+//
+//            @Override
+//            public void onError(Throwable t) {
+//
+//            }
+//
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//        };
+
+
         String testPasword = "password";
         System.out.println("VALIDATE");
         ValidateRequest validateRequest = ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPasword).build();
 
         BoolValue isValid = syncUserService.validate(validateRequest);
         System.out.println(isValid.getValue());
+        //asyncUserService.validate(validateRequest,response);
+
+
     }
 
     public void hashMethod(int userId, String password) {
@@ -66,7 +88,6 @@ public class TestClient {
         }
 
     }
-
 
     public static void main(String[] args) throws Exception {
         TestClient client = new TestClient("localhost", 50551);

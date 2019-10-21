@@ -2,7 +2,10 @@ package ie.gmit.ds;
 
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
+
+import java.util.ArrayList;
 
 public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImplBase {
 
@@ -21,7 +24,6 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
             responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
             responseObserver.onCompleted();
         }
-
 
     }
 
