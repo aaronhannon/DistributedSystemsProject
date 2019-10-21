@@ -1,6 +1,5 @@
 package ie.gmit.ds;
 
-
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -9,8 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Logger;
 
-
 public class PasswordServiceServer {
+
     private Server grpcServer;
     private static final Logger logger = Logger.getLogger(PasswordServiceServer.class.getName());
     private static final int PORT = 50551;
@@ -46,4 +45,5 @@ public class PasswordServiceServer {
             grpcServer.awaitTermination();
         }
     }
+
 }

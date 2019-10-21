@@ -2,16 +2,19 @@ package ie.gmit.ds;
 
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.Empty;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
-import java.util.ArrayList;
+
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class TestClient {
     private static final Logger logger = Logger.getLogger(TestClient.class.getName());
@@ -34,79 +37,26 @@ public class TestClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
+    public void hashMethod(int userId, String password) {
 
-    private void validate(){
-
-        StreamObserver<BoolValue> responseObserver = new StreamObserver<BoolValue>() {
-
-            @Override
-            public void onNext(BoolValue value) {
-                if(value.getValue() == true){
-                    System.out.println("Login Successful");
-                }else{
-                    System.out.println("Login Failed");
-                }
-                System.out.println("VALUE: " + value.getValue());
-                // logger.info("PASSWORD VALID: " + value);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-        };
-
-        boolean isValid = false;
 
         try {
-            //logger.info("Requesting all items ");
-//            ValidatePwd val = ValidatePwd.newBuilder().setUser(user).setPwd(password).build();
-//            asyncUserService.validate(val,responseObserver);
-            //logger.info("Returned from requesting all items ");
-
-
+            logger.info("Requesting all items ");
+            HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
+            HashResponse response = syncUserService.hash(hashRequest);
+            System.out.println(response.getHashedPassword().toByteArray());
+            logger.info("Returned from requesting all items ");
         } catch (StatusRuntimeException ex) {
-            //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
-
+            logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
+            return;
         }
 
-
-
-    }
-
-    public void hash(HashRequest hashRequest) {
-        StreamObserver<HashResponse> responseObserver = new StreamObserver<HashResponse>() {
-            @Override
-            public void onNext(HashResponse value) {
-                System.out.println(value.getUserId());
-                System.out.println(value.getHashedPassword().toByteArray());
-                System.out.println(value.getSalt().toByteArray());
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-        };
-
-        asyncUserService.hash(hashRequest,responseObserver);
     }
 
 
     public static void main(String[] args) throws Exception {
         TestClient client = new TestClient("localhost", 50551);
         Scanner console = new Scanner(System.in);  // Create a Scanner object
-        boolean exit = false;
         int userID;
         String password;
 
@@ -115,8 +65,7 @@ public class TestClient {
         System.out.println("Enter Password:");
         password = console.next();
 
-        HashRequest hashRequest = HashRequest.newBuilder().setUserId(userID).setPassword(password).build();
-        client.hash(hashRequest);
+        client.hashMethod(userID, password);
 
     }
 

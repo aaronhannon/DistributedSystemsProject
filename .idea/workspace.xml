@@ -31,9 +31,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.TestClient">
     <configuration name="Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="ie.gmit.ds.PasswordServiceServer" />
+      <module name="DistributedSystemMavenProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestClient" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ie.gmit.ds.TestClient" />
       <module name="DistributedSystemMavenProject" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -97,6 +104,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.Server" />
+      <item itemvalue="Application.TestClient" />
       <item itemvalue="Maven.DistributedSystemMavenProject [compile]" />
     </list>
   </component>
