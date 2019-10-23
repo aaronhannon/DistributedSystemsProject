@@ -54,7 +54,7 @@ public class TestClient {
 
             @Override
             public void onCompleted() {
-                System.exit(0);
+                //System.exit(0);
             }
         };
 
@@ -111,11 +111,6 @@ public class TestClient {
             HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
             asyncUserService.hash(hashRequest,response);
             TimeUnit.SECONDS.sleep(1);
-//            HashResponse responseHashed = syncUserService.hash(hashRequest);
-//            System.out.println(responseHashed.getHashedPassword().toByteArray());
-
-
-
             //logger.info("Returned from requesting all items ");
         } catch (StatusRuntimeException | InterruptedException e) {
             //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
@@ -129,26 +124,35 @@ public class TestClient {
         Scanner console = new Scanner(System.in);  // Create a Scanner object
         int userID;
         String password;
+        String exit = "";
 
-        System.out.println("Enter UserID: ");
-        userID = console.nextInt();
-        System.out.println("Enter Password:");
-        password = console.next();
-        System.out.println("Enter Test Password:");
-        client.testPassword = console.next();
 
-        ByteString bPassword = ByteString.copyFrom(password.getBytes());
+        while (!exit.equalsIgnoreCase("Y")){
+            System.out.print("\nEnter UserID: ");
+            userID = console.nextInt();
+            System.out.print("Enter Password: ");
+            password = console.next();
+            System.out.print("Enter Test Password: ");
+            client.testPassword = console.next();
 
-        try {
-            client.hashMethod(userID, password);
-            client.validateMethod();
-        } finally {
-            // Don't stop process, keep alive to receive async response
-            Thread.currentThread().join();
+
+            ByteString bPassword = ByteString.copyFrom(password.getBytes());
+
+            try {
+                client.hashMethod(userID, password);
+                client.validateMethod();
+
+                System.out.print("Exit? (y/n): ");
+                exit = console.next();
+                if(exit.equalsIgnoreCase("y")){
+                    System.exit(0);
+                }
+
+            } finally {
+                // Don't stop process, keep alive to receive async response
+                //Thread.currentThread().join();
+            }
         }
-
-
-        System.out.println("After Hash Method");
 
 
     }

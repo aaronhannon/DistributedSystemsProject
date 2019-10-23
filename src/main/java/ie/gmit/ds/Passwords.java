@@ -37,19 +37,6 @@ public class Passwords {
 
         boolean isValid = Arrays.equals(pwdHash, expectedHash.toByteArray());
 
-
-        for (byte b: pwdHash) {
-            System.out.println((char)b);
-        }
-
-        System.out.println();
-
-        for (byte b: expectedHash) {
-            System.out.print((char)b);
-        }
-        System.out.println();
-
-
         if(isValid == true){
             return true;
         }else{

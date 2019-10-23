@@ -12,63 +12,45 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
 
     @Override
     public void validate(ValidateRequest request, StreamObserver<BoolValue> responseObserver) {
-        System.out.println("VALIDATE METHOD");
+        try {
+            System.out.println("VALIDATE METHOD:");
 
+            boolean validPassword = Passwords.isExpectedPassword(request.getPassword(),request.getSalt(),request.getHashedPassword());
 
-        //char[] expectedPasswordChar = new char[expectedPassword.length];
+            System.out.println("\tValidation: " + validPassword + "\n");
 
-//        for (int i = 0; i < expectedPassword.length; i++) {
-//            expectedPasswordChar[i] = (char) expectedPassword[i];
-//        }
-//
-//        for (char c:password) {
-//            System.out.print(c);
-//        }
-//
-//        System.out.println();
-//
-//
-//        for (char c:expectedPasswordChar) {
-//            System.out.print(c);
-//        }
-
-
-
-        boolean validPassword = Passwords.isExpectedPassword(request.getPassword(),request.getSalt(),request.getHashedPassword());
-
-        System.out.println("\nvalidation: " + validPassword);
-
-        if(validPassword == true){
-            responseObserver.onNext(BoolValue.newBuilder().setValue(true).build());
-            responseObserver.onCompleted();
-        }else{
-            responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
-            responseObserver.onCompleted();
+            if(validPassword == true){
+                responseObserver.onNext(BoolValue.newBuilder().setValue(true).build());
+                responseObserver.onCompleted();
+            }else{
+                responseObserver.onNext(BoolValue.newBuilder().setValue(false).build());
+                responseObserver.onCompleted();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
     }
 
     @Override
     public void hash(HashRequest request, StreamObserver<HashResponse> responseObserver) {
 
-
         try {
-            System.out.println("HERE");
+            System.out.println("HASH METHOD:");
             byte[] salt = Passwords.getNextSalt();
-
             byte[] hashedPassword = Passwords.hash(request.getPassword().toCharArray(),salt);
+
             ByteString saltByteString = ByteString.copyFrom(salt);
             ByteString hashedPasswordByteString = ByteString.copyFrom(hashedPassword);
-            System.out.println(saltByteString);
-            System.out.println(hashedPasswordByteString);
 
-            // HashResponse hashResponse = HashResponse.newBuilder().setUserId(request.getUserId()).setHashedPassword(hashedPasswordByteString).setSalt(saltByteString).build();
-
+            System.out.println("\tSalt: " + saltByteString);
+            System.out.println("\tHashed Password: " + hashedPasswordByteString + "\n");
 
             responseObserver.onNext(HashResponse.newBuilder().setUserId(request.getUserId()).setHashedPassword(hashedPasswordByteString).setSalt(saltByteString).build());
             responseObserver.onCompleted();
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }
