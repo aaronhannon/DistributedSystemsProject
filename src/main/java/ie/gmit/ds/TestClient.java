@@ -38,55 +38,90 @@ public class TestClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void validateMethod(ByteString expectedHash,ByteString salt){
+    public void validateMethod(){
 
 
-//        StreamObserver<BoolValue> response = new StreamObserver<BoolValue>() {
-//            @Override
-//            public void onNext(BoolValue value) {
-//                System.out.println("ONNEXT VALUE: " + value.getValue());
-//            }
-//
-//            @Override
-//            public void onError(Throwable t) {
-//
-//            }
-//
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//        };
+        StreamObserver<BoolValue> response = new StreamObserver<BoolValue>() {
+            @Override
+            public void onNext(BoolValue value) {
+                System.out.println("LOGIN VALUE: " + value.getValue());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                System.exit(0);
+            }
+        };
 
 
-        String testPasword = "password";
+
         System.out.println("VALIDATE");
-        ValidateRequest validateRequest = ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPasword).build();
 
-        BoolValue isValid = syncUserService.validate(validateRequest);
-        System.out.println(isValid.getValue());
-        //asyncUserService.validate(validateRequest,response);
+        try{
+            asyncUserService.validate(ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPassword).build(),response);
+            TimeUnit.SECONDS.sleep(1);
+        }catch (StatusRuntimeException | InterruptedException ex) {
+            //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
+            return;
+        }
+        return;
+
 
 
     }
 
+    public String testPassword = " ";
+    public ByteString expectedHash;
+    public ByteString salt;
+
     public void hashMethod(int userId, String password) {
 
 
-        try {
-            //logger.info("Requesting all items ");
-            HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
-            HashResponse response = syncUserService.hash(hashRequest);
-            System.out.println(response.getHashedPassword().toByteArray());
+        StreamObserver<HashResponse> response = new StreamObserver<HashResponse>() {
+            @Override
+            public void onNext(HashResponse value) {
 
-            validateMethod(response.getHashedPassword(),response.getSalt());
+                System.out.println(value.getUserId());
+                salt = value.getSalt();
+                expectedHash = value.getHashedPassword();
+
+
+                //System.out.println(value.getUserId());
+                //validateMethod(value.getHashedPassword(),value.getSalt());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        };
+
+        try {
+            logger.info("Requesting all items ");
+            HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
+            asyncUserService.hash(hashRequest,response);
+            TimeUnit.SECONDS.sleep(1);
+//            HashResponse responseHashed = syncUserService.hash(hashRequest);
+//            System.out.println(responseHashed.getHashedPassword().toByteArray());
+
+
 
             //logger.info("Returned from requesting all items ");
-        } catch (StatusRuntimeException ex) {
+        } catch (StatusRuntimeException | InterruptedException e) {
             //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
             return;
         }
-
+        return;
     }
 
     public static void main(String[] args) throws Exception {
@@ -99,8 +134,22 @@ public class TestClient {
         userID = console.nextInt();
         System.out.println("Enter Password:");
         password = console.next();
+        System.out.println("Enter Test Password:");
+        client.testPassword = console.next();
 
-        client.hashMethod(userID, password);
+        ByteString bPassword = ByteString.copyFrom(password.getBytes());
+
+        try {
+            client.hashMethod(userID, password);
+            client.validateMethod();
+        } finally {
+            // Don't stop process, keep alive to receive async response
+            Thread.currentThread().join();
+        }
+
+
+        System.out.println("After Hash Method");
+
 
     }
 

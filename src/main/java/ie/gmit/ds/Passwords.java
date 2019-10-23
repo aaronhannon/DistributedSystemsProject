@@ -1,6 +1,8 @@
 package ie.gmit.ds;
 
 
+import com.google.protobuf.ByteString;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
@@ -30,9 +32,29 @@ public class Passwords {
         }
     }
 
-    public static boolean isExpectedPassword(char[] password, byte[] salt, byte[] expectedHash) {
-        byte[] pwdHash = hash(password, salt);
-        return Arrays.equals(pwdHash, expectedHash);
+    public static boolean isExpectedPassword(String password, ByteString salt, ByteString expectedHash) {
+        byte[] pwdHash = hash(password.toCharArray(),salt.toByteArray());
+
+        boolean isValid = Arrays.equals(pwdHash, expectedHash.toByteArray());
+
+
+        for (byte b: pwdHash) {
+            System.out.println((char)b);
+        }
+
+        System.out.println();
+
+        for (byte b: expectedHash) {
+            System.out.print((char)b);
+        }
+        System.out.println();
+
+
+        if(isValid == true){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public static byte[] getNextSalt() {
