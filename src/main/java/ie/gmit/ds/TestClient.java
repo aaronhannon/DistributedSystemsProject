@@ -38,7 +38,7 @@ public class TestClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void validateMethod(){
+    public void validateMethod() {
 
 
         StreamObserver<BoolValue> response = new StreamObserver<BoolValue>() {
@@ -59,18 +59,16 @@ public class TestClient {
         };
 
 
-
         System.out.println("VALIDATE");
 
-        try{
-            asyncUserService.validate(ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPassword).build(),response);
-            TimeUnit.SECONDS.sleep(1);
-        }catch (StatusRuntimeException | InterruptedException ex) {
+        try {
+            asyncUserService.validate(ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPassword).build(), response);
+            TimeUnit.SECONDS.sleep(2);
+        } catch (StatusRuntimeException | InterruptedException ex) {
             //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
             return;
         }
         return;
-
 
 
     }
@@ -109,8 +107,8 @@ public class TestClient {
         try {
             logger.info("Requesting all items ");
             HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
-            asyncUserService.hash(hashRequest,response);
-            TimeUnit.SECONDS.sleep(1);
+            asyncUserService.hash(hashRequest, response);
+            TimeUnit.SECONDS.sleep(2);
             //logger.info("Returned from requesting all items ");
         } catch (StatusRuntimeException | InterruptedException e) {
             //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
@@ -120,7 +118,7 @@ public class TestClient {
     }
 
     public static void main(String[] args) throws Exception {
-        TestClient client = new TestClient("localhost", 50551);
+        TestClient client = new TestClient("10.12.8.171", 50551);
         Scanner console = new Scanner(System.in);  // Create a Scanner object
         int userID;
         String password;
@@ -154,10 +152,10 @@ public class TestClient {
             }
         }
 
-
     }
-
-
-
 }
+
+
+
+
 

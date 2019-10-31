@@ -29,16 +29,6 @@ public final class PasswordServiceOuterClass {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ie_gmit_ds_ValidateRequest_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ie_gmit_ds_User_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ie_gmit_ds_User_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ie_gmit_ds_Users_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_ie_gmit_ds_Users_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -55,14 +45,11 @@ public final class PasswordServiceOuterClass {
       "e\022\016\n\006userId\030\001 \001(\005\022\026\n\016hashedPassword\030\002 \001(" +
       "\014\022\014\n\004salt\030\003 \001(\014\"I\n\017ValidateRequest\022\020\n\010pa" +
       "ssword\030\001 \001(\t\022\026\n\016hashedPassword\030\002 \001(\014\022\014\n\004" +
-      "salt\030\003 \001(\014\"\026\n\004User\022\016\n\006userId\030\001 \001(\005\"(\n\005Us" +
-      "ers\022\037\n\005users\030\001 \003(\0132\020.ie.gmit.ds.User2\310\001\n" +
-      "\017PasswordService\0229\n\004hash\022\027.ie.gmit.ds.Ha" +
-      "shRequest\032\030.ie.gmit.ds.HashResponse\022C\n\010v" +
-      "alidate\022\033.ie.gmit.ds.ValidateRequest\032\032.g" +
-      "oogle.protobuf.BoolValue\0225\n\010getUsers\022\026.g" +
-      "oogle.protobuf.Empty\032\021.ie.gmit.ds.UsersB" +
-      "\016\n\nie.gmit.dsP\001b\006proto3"
+      "salt\030\003 \001(\0142\221\001\n\017PasswordService\0229\n\004hash\022\027" +
+      ".ie.gmit.ds.HashRequest\032\030.ie.gmit.ds.Has" +
+      "hResponse\022C\n\010validate\022\033.ie.gmit.ds.Valid" +
+      "ateRequest\032\032.google.protobuf.BoolValueB\016" +
+      "\n\nie.gmit.dsP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -88,18 +75,6 @@ public final class PasswordServiceOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ie_gmit_ds_ValidateRequest_descriptor,
         new java.lang.String[] { "Password", "HashedPassword", "Salt", });
-    internal_static_ie_gmit_ds_User_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_ie_gmit_ds_User_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ie_gmit_ds_User_descriptor,
-        new java.lang.String[] { "UserId", });
-    internal_static_ie_gmit_ds_Users_descriptor =
-      getDescriptor().getMessageTypes().get(4);
-    internal_static_ie_gmit_ds_Users_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_ie_gmit_ds_Users_descriptor,
-        new java.lang.String[] { "Users", });
     com.google.protobuf.WrappersProto.getDescriptor();
     com.google.protobuf.EmptyProto.getDescriptor();
   }
