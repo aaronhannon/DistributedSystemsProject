@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImplBase {
 
+    /*
+    *   Validate method takes in a Validate request and compares the user entered password, hashes it with the salt and compares
+    *   it with the hashed password and returns true or false
+    */
     @Override
     public void validate(ValidateRequest request, StreamObserver<BoolValue> responseObserver) {
         try {
@@ -33,6 +37,9 @@ public class PasswordServiceImpl extends PasswordServiceGrpc.PasswordServiceImpl
 
     }
 
+    /*
+     *   Hash method takes user password and generates a salt and hashes the password and returns it
+     */
     @Override
     public void hash(HashRequest request, StreamObserver<HashResponse> responseObserver) {
 

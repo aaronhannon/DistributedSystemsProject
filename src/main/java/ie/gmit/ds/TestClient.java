@@ -118,7 +118,7 @@ public class TestClient {
     }
 
     public static void main(String[] args) throws Exception {
-        TestClient client = new TestClient("10.12.8.171", 50551);
+        TestClient client = new TestClient("localhost", 64999);
         Scanner console = new Scanner(System.in);  // Create a Scanner object
         int userID;
         String password;
