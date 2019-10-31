@@ -4,6 +4,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
@@ -26,22 +27,27 @@ public class PasswordServiceServer {
 
     }
 
-    //
+    // Try catch to Handle port already in use also  port must be within the range of 50000 and 65000
     public static void main(String[] args) throws IOException, InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
         int port;
         final PasswordServiceServer passwordServer = new PasswordServiceServer();
         Scanner console = new Scanner(System.in);
         do {
-            System.out.print("Enter Server's Port (50000 - 64999): ");
+            System.out.print("Enter Server's Port (50000 - 65000): ");
             port = console.nextInt();
-            if (port < 50000 || port > 64999){
-                System.out.println("ERROR - Please enter a port within the range of 50000 - 64999....\n");
+            if (port < 50000 || port > 65000){
+                System.out.println("ERROR - Please enter a port within the range of 50000 - 65000....\n");
             }
-        }while(port < 50000 || port > 64999);
 
+            try {
+                passwordServer.start(port);
+                passwordServer.blockUntilShutdown();
+            }catch (Throwable e){
+                port = 99999;
+                System.out.println("Port already in use. Try again...");
+            }
 
-        passwordServer.start(port);
-        passwordServer.blockUntilShutdown();
+        }while(port < 50000 || port > 65000);
     }
 
     private void stop() {
