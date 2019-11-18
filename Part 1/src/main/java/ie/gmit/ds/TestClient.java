@@ -63,7 +63,7 @@ public class TestClient {
 
         try {
             asyncUserService.validate(ValidateRequest.newBuilder().setHashedPassword(expectedHash).setSalt(salt).setPassword(testPassword).build(), response);
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(5);
         } catch (StatusRuntimeException | InterruptedException ex) {
             //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
             return;
@@ -108,7 +108,7 @@ public class TestClient {
             logger.info("Requesting all items ");
             HashRequest hashRequest = HashRequest.newBuilder().setUserId(userId).setPassword(password).build();
             asyncUserService.hash(hashRequest, response);
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(5);
             //logger.info("Returned from requesting all items ");
         } catch (StatusRuntimeException | InterruptedException e) {
             //logger.log(Level.WARNING, "RPC failed: {0}", ex.getStatus());
