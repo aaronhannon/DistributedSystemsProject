@@ -1,7 +1,9 @@
 ie\gmit\ds\UserApiResource.class
-ie\gmit\ds\TestClient.class
+ie\gmit\ds\Client$1.class
+ie\gmit\ds\Client.class
 ie\gmit\ds\UserApiConfig.class
-ie\gmit\ds\TestClient$2.class
 ie\gmit\ds\UserApiApplication.class
-ie\gmit\ds\TestClient$1.class
+ie\gmit\ds\UserHashed.class
+ie\gmit\ds\UserValidate.class
+ie\gmit\ds\ExampleHealthCheck.class
 ie\gmit\ds\User.class

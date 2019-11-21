@@ -11,6 +11,9 @@ public class UserApiApplication extends Application<UserApiConfig> {
 
     public void run(UserApiConfig artistApiConfig, Environment environment) throws Exception {
 
+        final ExampleHealthCheck healthCheck = new ExampleHealthCheck();
+        environment.healthChecks().register("example", healthCheck);
+
         final UserApiResource resource = new UserApiResource();
 
         environment.jersey().register(resource);
